@@ -167,6 +167,251 @@ button:disabled {
   margin-top: 5px;
 }
 
+
+/* ==================================================
+   VIEW DATA
+================================================== */
+
+.data-card {
+  margin-top: 18px;
+}
+
+.data-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.data-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.data-header p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+
+/* ==================================================
+   REFRESH BUTTON
+================================================== */
+
+.refresh-button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 10px;
+  font-size: 22px;
+  line-height: 42px;
+}
+
+
+/* ==================================================
+   DATA LOADING
+================================================== */
+
+.data-loading {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+
+/* ==================================================
+   EMPTY
+================================================== */
+
+.data-empty {
+  display: none;
+  text-align: center;
+  padding: 25px 10px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+
+/* ==================================================
+   DATA LIST
+================================================== */
+
+.data-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+/* ==================================================
+   DATA ITEM
+================================================== */
+
+.data-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+
+/* ==================================================
+   TOP DATA
+================================================== */
+
+.data-main {
+  display: flex;
+  gap: 12px;
+}
+
+
+/* ==================================================
+   IMAGE
+================================================== */
+
+.data-image {
+  width: 95px;
+  height: 95px;
+  min-width: 95px;
+  border-radius: 11px;
+  object-fit: cover;
+  background: #e5e7eb;
+  display: block;
+}
+
+
+/* ==================================================
+   IMAGE PLACEHOLDER
+================================================== */
+
+.data-image-placeholder {
+  width: 95px;
+  height: 95px;
+  min-width: 95px;
+  border-radius: 11px;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 11px;
+  text-align: center;
+}
+
+
+/* ==================================================
+   DATA CONTENT
+================================================== */
+
+.data-content {
+  flex: 1;
+  min-width: 0;
+}
+
+
+/* ==================================================
+   NO
+================================================== */
+
+.data-no {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+
+/* ==================================================
+   SKU
+================================================== */
+
+.data-sku {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  word-break: break-word;
+}
+
+
+/* ==================================================
+   INFO
+================================================== */
+
+.data-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  margin-top: 12px;
+}
+
+.data-info-box {
+  background: white;
+  border-radius: 9px;
+  padding: 9px;
+  border: 1px solid #f0f0f0;
+}
+
+.data-label {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+
+.data-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  word-break: break-word;
+}
+
+
+/* ==================================================
+   REASON
+================================================== */
+
+.data-reason {
+  margin-top: 8px;
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 9px;
+  padding: 9px;
+}
+
+.data-reason-text {
+  font-size: 13px;
+  color: #374151;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 380px) {
+
+  .container {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+  .data-image,
+  .data-image-placeholder {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+  }
+
+}
+
 </style>
 
 </head>
@@ -174,7 +419,13 @@ button:disabled {
 
 <body>
 
+
 <div class="container">
+
+
+<!-- ==================================================
+     FORM
+================================================== -->
 
 <div class="card">
 
@@ -189,6 +440,8 @@ button:disabled {
 
 <form id="damageForm">
 
+
+<!-- SKU -->
 
 <div class="form-group">
 
@@ -206,6 +459,8 @@ SKU
 
 </div>
 
+
+<!-- GAMBAR -->
 
 <div class="form-group">
 
@@ -227,6 +482,7 @@ Gambar Damage
 Ambil foto atau pilih gambar damage
 </div>
 
+
 <div
   class="preview"
   id="preview"
@@ -243,6 +499,8 @@ Ambil foto atau pilih gambar damage
 
 </div>
 
+
+<!-- QTY -->
 
 <div class="form-group">
 
@@ -261,6 +519,8 @@ QTY
 
 </div>
 
+
+<!-- REASON -->
 
 <div class="form-group">
 
@@ -303,15 +563,83 @@ Menyimpan data...
 
 </div>
 
+
+<!-- ==================================================
+     VIEW DATA
+================================================== -->
+
+<div class="card data-card">
+
+
+<div class="data-header">
+
+<div>
+
+<h2>
+Data Damage
+</h2>
+
+<p>
+Data yang sudah berhasil diinput
+</p>
+
+</div>
+
+
+<button
+  type="button"
+  class="refresh-button"
+  id="refreshButton"
+  title="Refresh data"
+>
+↻
+</button>
+
+</div>
+
+
+<div
+  class="data-loading"
+  id="dataLoading"
+>
+Memuat data...
+</div>
+
+
+<div
+  class="data-empty"
+  id="dataEmpty"
+>
+Belum ada data.
+</div>
+
+
+<div
+  class="data-list"
+  id="dataList"
+></div>
+
+
+</div>
+
+
 </div>
 
 
 <script>
 
 
+// ==================================================
+// API
+// ==================================================
+
 const API_URL =
 "https://script.google.com/macros/s/AKfycbw6mS8s89FS3sZ6Xa5ZqJorbqFxURs_XlCkPgC2kQUR2aIerj9DemZ-PU8hctLRO8EUng/exec";
 
+
+// ==================================================
+// FORM ELEMENT
+// ==================================================
 
 const form =
 document.getElementById("damageForm");
@@ -345,6 +673,23 @@ document.getElementById("status");
 
 
 // ==================================================
+// VIEW DATA ELEMENT
+// ==================================================
+
+const dataList =
+document.getElementById("dataList");
+
+const dataLoading =
+document.getElementById("dataLoading");
+
+const dataEmpty =
+document.getElementById("dataEmpty");
+
+const refreshButton =
+document.getElementById("refreshButton");
+
+
+// ==================================================
 // PREVIEW
 // ==================================================
 
@@ -354,6 +699,7 @@ function() {
 
   const file =
     this.files[0];
+
 
   if (!file) {
 
@@ -366,6 +712,7 @@ function() {
     return;
 
   }
+
 
   if (!file.type.startsWith("image/")) {
 
@@ -380,11 +727,14 @@ function() {
 
   }
 
+
   const url =
     URL.createObjectURL(file);
 
+
   previewImage.src =
     url;
+
 
   preview.style.display =
     "block";
@@ -406,19 +756,24 @@ async function(event) {
   const sku =
     skuInput.value.trim();
 
+
   const qty =
-    Number(qtyInput.value);
+    Number(
+      qtyInput.value
+    );
+
 
   const reason =
     reasonInput.value.trim();
+
 
   const file =
     imageInput.files[0];
 
 
-  // ----------------------------------------------
-  // VALIDASI
-  // ----------------------------------------------
+  // ================================================
+  // VALIDASI SKU
+  // ================================================
 
   if (!sku) {
 
@@ -433,6 +788,10 @@ async function(event) {
 
   }
 
+
+  // ================================================
+  // VALIDASI QTY
+  // ================================================
 
   if (
     !Number.isInteger(qty) ||
@@ -451,6 +810,10 @@ async function(event) {
   }
 
 
+  // ================================================
+  // VALIDASI REASON
+  // ================================================
+
   if (!reason) {
 
     showStatus(
@@ -464,6 +827,10 @@ async function(event) {
 
   }
 
+
+  // ================================================
+  // VALIDASI GAMBAR
+  // ================================================
 
   if (!file) {
 
@@ -482,17 +849,17 @@ async function(event) {
     setLoading(true);
 
 
-    // --------------------------------------------
-    // COMPRESS
-    // --------------------------------------------
+    // ==============================================
+    // COMPRESS IMAGE
+    // ==============================================
 
     const imageBase64 =
       await compressImage(file);
 
 
-    // --------------------------------------------
+    // ==============================================
     // PAYLOAD
-    // --------------------------------------------
+    // ==============================================
 
     const payload = {
 
@@ -517,9 +884,9 @@ async function(event) {
     );
 
 
-    // --------------------------------------------
+    // ==============================================
     // POST
-    // --------------------------------------------
+    // ==============================================
 
     const response =
       await fetch(
@@ -530,12 +897,16 @@ async function(event) {
             "POST",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body:
-            JSON.stringify(payload)
+            JSON.stringify(
+              payload
+            )
 
         }
       );
@@ -551,9 +922,9 @@ async function(event) {
     );
 
 
-    // --------------------------------------------
+    // ==============================================
     // RESPONSE ERROR
-    // --------------------------------------------
+    // ==============================================
 
     if (!result.success) {
 
@@ -565,9 +936,9 @@ async function(event) {
     }
 
 
-    // --------------------------------------------
+    // ==============================================
     // BERHASIL
-    // --------------------------------------------
+    // ==============================================
 
     showStatus(
 
@@ -579,20 +950,29 @@ async function(event) {
     );
 
 
-    // --------------------------------------------
-    // RESET
-    // --------------------------------------------
+    // ==============================================
+    // RESET FORM
+    // ==============================================
 
     form.reset();
 
+
     preview.style.display =
       "none";
+
 
     previewImage.src =
       "";
 
 
     skuInput.focus();
+
+
+    // ==============================================
+    // REFRESH VIEW DATA
+    // ==============================================
+
+    await loadData();
 
 
   }
@@ -649,6 +1029,7 @@ function compressImage(file) {
             let width =
               img.width;
 
+
             let height =
               img.height;
 
@@ -662,7 +1043,9 @@ function compressImage(file) {
               height > maxSize
             ) {
 
-              if (width > height) {
+              if (
+                width > height
+              ) {
 
                 height =
                   Math.round(
@@ -670,6 +1053,7 @@ function compressImage(file) {
                     maxSize /
                     width
                   );
+
 
                 width =
                   maxSize;
@@ -683,6 +1067,7 @@ function compressImage(file) {
                     maxSize /
                     height
                   );
+
 
                 height =
                   maxSize;
@@ -700,6 +1085,7 @@ function compressImage(file) {
 
             canvas.width =
               width;
+
 
             canvas.height =
               height;
@@ -727,7 +1113,9 @@ function compressImage(file) {
               );
 
 
-            resolve(result);
+            resolve(
+              result
+            );
 
           };
 
@@ -762,7 +1150,9 @@ function compressImage(file) {
       };
 
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(
+      file
+    );
 
   });
 
@@ -770,10 +1160,351 @@ function compressImage(file) {
 
 
 // ==================================================
-// LOADING
+// LOAD DATA
 // ==================================================
 
-function setLoading(isLoading) {
+async function loadData() {
+
+  dataLoading.style.display =
+    "block";
+
+
+  dataEmpty.style.display =
+    "none";
+
+
+  dataList.innerHTML =
+    "";
+
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL +
+        "?action=list&t=" +
+        Date.now(),
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server mengembalikan HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const result =
+      await response.json();
+
+
+    console.log(
+      "View Data:",
+      result
+    );
+
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "Gagal mengambil data."
+      );
+
+    }
+
+
+    const data =
+      Array.isArray(
+        result.data
+      )
+        ? result.data
+        : [];
+
+
+    // ==============================================
+    // TIDAK ADA DATA
+    // ==============================================
+
+    if (
+      data.length === 0
+    ) {
+
+      dataEmpty.style.display =
+        "block";
+
+      dataEmpty.textContent =
+        "Belum ada data damage.";
+
+      return;
+
+    }
+
+
+    // ==============================================
+    // DATA TERBARU DI ATAS
+    // ==============================================
+
+    data.sort(
+      function(a, b) {
+
+        return (
+          Number(b.no || 0) -
+          Number(a.no || 0)
+        );
+
+      }
+    );
+
+
+    // ==============================================
+    // RENDER
+    // ==============================================
+
+    data.forEach(
+      function(item) {
+
+        const element =
+          document.createElement(
+            "div"
+          );
+
+
+        element.className =
+          "data-item";
+
+
+        const imageUrl =
+          item.imageUrl ||
+          "";
+
+
+        let imageHTML;
+
+
+        if (imageUrl) {
+
+          imageHTML = `
+
+            <img
+              class="data-image"
+              src="${escapeHTML(imageUrl)}"
+              alt="Damage ${escapeHTML(item.sku)}"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            >
+
+            <div
+              class="data-image-placeholder"
+              style="display:none;"
+            >
+              Gambar tidak tersedia
+            </div>
+
+          `;
+
+        }
+        else {
+
+          imageHTML = `
+
+            <div
+              class="data-image-placeholder"
+            >
+              Tidak ada gambar
+            </div>
+
+          `;
+
+        }
+
+
+        element.innerHTML = `
+
+          <div class="data-main">
+
+            ${imageHTML}
+
+
+            <div class="data-content">
+
+              <div class="data-no">
+                NO. ${escapeHTML(item.no)}
+              </div>
+
+
+              <div class="data-sku">
+                ${escapeHTML(item.sku)}
+              </div>
+
+
+              <div class="data-info">
+
+                <div class="data-info-box">
+
+                  <div class="data-label">
+                    QTY
+                  </div>
+
+                  <div class="data-value">
+                    ${escapeHTML(item.qty)}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="data-reason">
+
+            <div class="data-label">
+              REASON
+            </div>
+
+            <div class="data-reason-text">
+              ${escapeHTML(item.reason)}
+            </div>
+
+          </div>
+
+        `;
+
+
+        dataList.appendChild(
+          element
+        );
+
+      }
+    );
+
+
+  }
+  catch(error) {
+
+    console.error(
+      "VIEW DATA ERROR:",
+      error
+    );
+
+
+    dataEmpty.style.display =
+      "block";
+
+
+    dataEmpty.textContent =
+      "Gagal mengambil data. " +
+      error.message;
+
+  }
+  finally {
+
+    dataLoading.style.display =
+      "none";
+
+  }
+
+}
+
+
+// ==================================================
+// REFRESH
+// ==================================================
+
+refreshButton.addEventListener(
+  "click",
+  async function() {
+
+    refreshButton.disabled =
+      true;
+
+
+    refreshButton.textContent =
+      "⟳";
+
+
+    try {
+
+      await loadData();
+
+    }
+    finally {
+
+      refreshButton.disabled =
+        false;
+
+      refreshButton.textContent =
+        "↻";
+
+    }
+
+  }
+);
+
+
+// ==================================================
+// ESCAPE HTML
+// ==================================================
+
+function escapeHTML(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+// ==================================================
+// LOADING FORM
+// ==================================================
+
+function setLoading(
+  isLoading
+) {
 
   submitButton.disabled =
     isLoading;
@@ -798,8 +1529,8 @@ function setLoading(isLoading) {
 // ==================================================
 
 function showStatus(
-message,
-type
+  message,
+  type
 ) {
 
   if (!message) {
@@ -818,10 +1549,19 @@ type
   statusBox.textContent =
     message;
 
+
   statusBox.className =
-    "status " + type;
+    "status " +
+    type;
 
 }
+
+
+// ==================================================
+// INITIAL LOAD
+// ==================================================
+
+loadData();
 
 </script>
 
