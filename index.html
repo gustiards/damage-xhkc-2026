@@ -206,11 +206,6 @@ button:disabled {
   margin-bottom: 11px;
 }
 
-.damage-no {
-  font-size: 12px;
-  color: #888;
-}
-
 .damage-sku {
   font-size: 16px;
   font-weight: 700;
@@ -614,10 +609,8 @@ imageInput.addEventListener(
 
     }
 
-
     const reader =
       new FileReader();
-
 
     reader.onload =
       function(e) {
@@ -629,7 +622,6 @@ imageInput.addEventListener(
           "block";
 
       };
-
 
     reader.readAsDataURL(file);
 
@@ -653,13 +645,11 @@ function compressImage(
       const reader =
         new FileReader();
 
-
       reader.onload =
         function(event) {
 
           const img =
             new Image();
-
 
           img.onload =
             function() {
@@ -939,7 +929,6 @@ form.addEventListener(
       );
 
 
-      // Reset form
       form.reset();
 
       preview.src =
@@ -949,7 +938,6 @@ form.addEventListener(
         "none";
 
 
-      // Refresh data
       await loadData();
 
 
@@ -983,6 +971,90 @@ form.addEventListener(
 
 
 /* =====================================================
+   PARSE ANGKA / HARGA
+   ===================================================== */
+
+function parseAmount(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+
+    return 0;
+
+  }
+
+
+  if (
+    typeof value === "number"
+  ) {
+
+    return value;
+
+  }
+
+
+  let text =
+    String(value)
+      .trim()
+      .replace(/Rp/gi, "")
+      .replace(/\s/g, "");
+
+
+  /*
+   * Contoh:
+   *
+   * 100000
+   * 100.000
+   * Rp100.000
+   * 1.250.000
+   * 100.000,50
+   */
+
+
+  if (
+    text.includes(".") &&
+    text.includes(",")
+  ) {
+
+    text =
+      text
+        .replace(/\./g, "")
+        .replace(",", ".");
+
+  }
+  else if (
+    text.includes(".")
+  ) {
+
+    text =
+      text.replace(/\./g, "");
+
+  }
+  else if (
+    text.includes(",")
+  ) {
+
+    text =
+      text.replace(",", ".");
+
+  }
+
+
+  const result =
+    Number(text);
+
+
+  return Number.isFinite(result)
+    ? result
+    : 0;
+
+}
+
+
+/* =====================================================
    FORMAT RUPIAH
    ===================================================== */
 
@@ -991,7 +1063,7 @@ function formatRupiah(
 ) {
 
   const number =
-    Number(value) || 0;
+    parseAmount(value);
 
 
   return new Intl.NumberFormat(
@@ -1049,7 +1121,7 @@ function escapeHTML(
 
 
 /* =====================================================
-   LOAD DATA
+   LOAD DATA DARI GOOGLE SPREADSHEET
    ===================================================== */
 
 async function loadData() {
@@ -1069,38 +1141,83 @@ async function loadData() {
 
   try {
 
+    /*
+     * Apps Script menggunakan:
+     *
+     * ?action=list
+     *
+     * Response:
+     *
+     * {
+     *   success: true,
+     *   data: [...]
+     * }
+     */
+
+
+    const url =
+      API_URL +
+      "?action=list&t=" +
+      Date.now();
+
+
     const response =
       await fetch(
-        API_URL +
-        "?action=list&t=" +
-        Date.now(),
+        url,
         {
           method:
             "GET",
 
           cache:
-            "no-store"
+            "no-store",
+
+          redirect:
+            "follow"
         }
       );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server mengembalikan HTTP " +
+        response.status
+      );
+
+    }
 
 
     const result =
       await response.json();
 
 
+    console.log(
+      "RESPONSE APPS SCRIPT:",
+      result
+    );
+
+
     if (
-      !result.success
+      !result ||
+      result.success !== true
     ) {
 
       throw new Error(
-        result.message ||
-        "Data gagal diambil."
+        result?.message ||
+        "Data gagal diambil dari Spreadsheet."
       );
 
     }
 
 
-    const data =
+    /*
+     * Apps Script saat ini mengirim:
+     *
+     * result.data
+     */
+
+
+    let data =
       Array.isArray(result.data)
         ? result.data
         : [];
@@ -1117,12 +1234,55 @@ async function loadData() {
       dataEmpty.style.display =
         "block";
 
+      dataEmpty.textContent =
+        "Belum ada data damage.";
+
       summary.style.display =
         "none";
 
       return;
 
     }
+
+
+    /* =================================================
+       NORMALISASI DATA
+       ================================================= */
+
+    data =
+      data.map(
+        function(item) {
+
+          return {
+
+            no:
+              item.no ?? "",
+
+            sku:
+              item.sku ?? "",
+
+            namaBarang:
+              item.namaBarang ?? "",
+
+            qty:
+              item.qty ?? 0,
+
+            hargaTotal:
+              item.hargaTotal ?? 0,
+
+            reason:
+              item.reason ?? "",
+
+            fileId:
+              item.fileId ?? "",
+
+            imageUrl:
+              item.imageUrl ?? ""
+
+          };
+
+        }
+      );
 
 
     /* =================================================
@@ -1152,66 +1312,17 @@ async function loadData() {
     data.forEach(
       function(item) {
 
-        /*
-         * Harga Total dari kolom G
-         *
-         * Menghapus format:
-         * Rp
-         * titik
-         * koma
-         */
-
-        let amount =
-          item.hargaTotal;
-
-
-        if (
-          amount === undefined ||
-          amount === null ||
-          amount === ""
-        ) {
-
-          amount = 0;
-
-        }
-
-
-        if (
-          typeof amount === "string"
-        ) {
-
-          amount =
-            amount
-              .replace(
-                /Rp/gi,
-                ""
-              )
-              .replace(
-                /\./g,
-                ""
-              )
-              .replace(
-                /,/g,
-                "."
-              )
-              .trim();
-
-        }
-
-
-        amount =
-          Number(amount) || 0;
-
-
         amountTotal +=
-          amount;
+          parseAmount(
+            item.hargaTotal
+          );
 
       }
     );
 
 
     /* =================================================
-       RENDER LIST
+       RENDER DATA
        ================================================= */
 
     data.forEach(
@@ -1241,10 +1352,10 @@ async function loadData() {
           );
 
 
-        const hargaTotalValue =
-          Number(
+        const hargaTotal =
+          formatRupiah(
             item.hargaTotal
-          ) || 0;
+          );
 
 
         const itemElement =
@@ -1263,10 +1374,6 @@ async function loadData() {
 
             <div class="damage-sku">
               ${sku || "-"}
-            </div>
-
-            <div class="damage-no">
-              No. ${escapeHTML(item.no)}
             </div>
 
           </div>
@@ -1307,7 +1414,7 @@ async function loadData() {
               </span>
 
               <span class="info-value amount">
-                ${formatRupiah(hargaTotalValue)}
+                ${hargaTotal}
               </span>
 
             </div>
@@ -1375,7 +1482,10 @@ async function loadData() {
 
     dataEmpty.textContent =
       "Data gagal dimuat: " +
-      error.message;
+      (
+        error.message ||
+        "Periksa koneksi."
+      );
 
 
     summary.style.display =
@@ -1390,7 +1500,14 @@ async function loadData() {
    LOAD DATA SAAT HALAMAN DIBUKA
    ===================================================== */
 
-loadData();
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadData();
+
+  }
+);
 
 </script>
 
