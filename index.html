@@ -140,147 +140,48 @@ button:disabled {
   color: #b42318;
 }
 
-.loading {
-  text-align: center;
-  color: #777;
-  font-size: 14px;
-  padding: 15px 0;
-}
-
-.empty {
-  text-align: center;
-  color: #888;
-  font-size: 14px;
-  padding: 20px 0;
-}
-
 
 /* =====================================================
-   DATA DAMAGE
+   BUTTON GOOGLE SPREADSHEET
    ===================================================== */
 
-.data-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+.spreadsheet-card {
+  text-align: center;
 }
 
-.data-header h2 {
-  margin: 0;
-  font-size: 19px;
-}
-
-.data-header p {
-  margin: 4px 0 0;
-  color: #888;
-  font-size: 12px;
-}
-
-.refresh-btn {
-  width: auto;
-  padding: 8px 13px;
-  border-radius: 9px;
-  background: #111;
+.spreadsheet-title {
+  margin: 0 0 6px;
   font-size: 18px;
-  line-height: 1;
-}
-
-
-/* =====================================================
-   ITEM DATA
-   ===================================================== */
-
-.damage-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 13px;
-  padding: 14px;
-  margin-bottom: 10px;
-  background: #fff;
-}
-
-.damage-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 11px;
-}
-
-.damage-sku {
-  font-size: 16px;
   font-weight: 700;
-  color: #111;
 }
 
-.damage-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-}
-
-.info-box {
-  background: #f7f8f9;
-  border-radius: 9px;
-  padding: 9px;
-}
-
-.info-label {
-  display: block;
-  font-size: 11px;
+.spreadsheet-description {
+  margin: 0 0 16px;
   color: #888;
-  margin-bottom: 4px;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
-.info-value {
+.spreadsheet-btn {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #222;
-  word-break: break-word;
-}
-
-.reason-box {
-  margin-top: 9px;
-  background: #f7f8f9;
-  border-radius: 9px;
-  padding: 9px;
-}
-
-.amount {
-  font-weight: 700;
-}
-
-
-/* =====================================================
-   SUMMARY
-   ===================================================== */
-
-.summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.summary-box {
-  border-radius: 13px;
-  padding: 15px;
+  width: 100%;
+  border-radius: 11px;
+  padding: 14px;
   background: #111;
   color: #fff;
-}
-
-.summary-label {
-  display: block;
-  font-size: 12px;
-  opacity: 0.75;
-  margin-bottom: 7px;
-}
-
-.summary-value {
-  display: block;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 700;
-  word-break: break-word;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.spreadsheet-btn:hover {
+  background: #222;
+}
+
+.spreadsheet-btn:active {
+  transform: scale(0.99);
 }
 
 
@@ -292,14 +193,6 @@ button:disabled {
 
   .card {
     padding: 17px;
-  }
-
-  .damage-info {
-    grid-template-columns: 1fr;
-  }
-
-  .summary-value {
-    font-size: 17px;
   }
 
 }
@@ -437,100 +330,28 @@ button:disabled {
 
 
   <!-- ==================================================
-       DATA DAMAGE
+       GOOGLE SPREADSHEET
        ================================================== -->
 
-  <div class="card">
+  <div class="card spreadsheet-card">
 
-    <div class="data-header">
+    <h2 class="spreadsheet-title">
+      Data Damage
+    </h2>
 
-      <div>
+    <p class="spreadsheet-description">
+      Untuk melihat data damage yang sudah tersimpan,
+      buka Google Spreadsheet.
+    </p>
 
-        <h2>
-          Data Damage
-        </h2>
-
-        <p>
-          Daftar barang damage
-        </p>
-
-      </div>
-
-
-      <button
-        type="button"
-        class="refresh-btn"
-        onclick="loadData()"
-        title="Refresh"
-      >
-        ↻
-      </button>
-
-    </div>
-
-
-    <div
-      id="dataLoading"
-      class="loading"
+    <a
+      class="spreadsheet-btn"
+      href="https://docs.google.com/spreadsheets/d/1TcyK-rBhLe2Ibn8iTot5KqdaLBoI4f6ZEWvLZOaHEvU/edit"
+      target="_blank"
+      rel="noopener noreferrer"
     >
-      Memuat data...
-    </div>
-
-
-    <div
-      id="dataEmpty"
-      class="empty"
-      style="display:none;"
-    >
-      Belum ada data damage.
-    </div>
-
-
-    <div id="dataList"></div>
-
-
-    <!-- ==================================================
-         SUMMARY
-         ================================================== -->
-
-    <div
-      id="summary"
-      class="summary"
-      style="display:none;"
-    >
-
-      <div class="summary-box">
-
-        <span class="summary-label">
-          Total SKU
-        </span>
-
-        <span
-          id="totalSku"
-          class="summary-value"
-        >
-          0
-        </span>
-
-      </div>
-
-
-      <div class="summary-box">
-
-        <span class="summary-label">
-          Total Amount
-        </span>
-
-        <span
-          id="totalAmount"
-          class="summary-value"
-        >
-          Rp 0
-        </span>
-
-      </div>
-
-    </div>
+      BUKA GOOGLE SPREADSHEET
+    </a>
 
   </div>
 
@@ -566,24 +387,6 @@ const submitBtn =
 
 const statusBox =
   document.getElementById("status");
-
-const dataList =
-  document.getElementById("dataList");
-
-const dataLoading =
-  document.getElementById("dataLoading");
-
-const dataEmpty =
-  document.getElementById("dataEmpty");
-
-const summary =
-  document.getElementById("summary");
-
-const totalSku =
-  document.getElementById("totalSku");
-
-const totalAmount =
-  document.getElementById("totalAmount");
 
 
 /* =====================================================
@@ -931,14 +734,12 @@ form.addEventListener(
 
       form.reset();
 
+
       preview.src =
         "";
 
       preview.style.display =
         "none";
-
-
-      await loadData();
 
 
     }
@@ -965,546 +766,6 @@ form.addEventListener(
         "SIMPAN DATA";
 
     }
-
-  }
-);
-
-
-/* =====================================================
-   PARSE ANGKA / HARGA
-   ===================================================== */
-
-function parseAmount(value) {
-
-  if (
-    value === null ||
-    value === undefined ||
-    value === ""
-  ) {
-
-    return 0;
-
-  }
-
-
-  if (
-    typeof value === "number"
-  ) {
-
-    return value;
-
-  }
-
-
-  let text =
-    String(value)
-      .trim()
-      .replace(/Rp/gi, "")
-      .replace(/\s/g, "");
-
-
-  /*
-   * Contoh:
-   *
-   * 100000
-   * 100.000
-   * Rp100.000
-   * 1.250.000
-   * 100.000,50
-   */
-
-
-  if (
-    text.includes(".") &&
-    text.includes(",")
-  ) {
-
-    text =
-      text
-        .replace(/\./g, "")
-        .replace(",", ".");
-
-  }
-  else if (
-    text.includes(".")
-  ) {
-
-    text =
-      text.replace(/\./g, "");
-
-  }
-  else if (
-    text.includes(",")
-  ) {
-
-    text =
-      text.replace(",", ".");
-
-  }
-
-
-  const result =
-    Number(text);
-
-
-  return Number.isFinite(result)
-    ? result
-    : 0;
-
-}
-
-
-/* =====================================================
-   FORMAT RUPIAH
-   ===================================================== */
-
-function formatRupiah(
-  value
-) {
-
-  const number =
-    parseAmount(value);
-
-
-  return new Intl.NumberFormat(
-    "id-ID",
-    {
-      style:
-        "currency",
-
-      currency:
-        "IDR",
-
-      maximumFractionDigits:
-        0
-    }
-  ).format(
-    number
-  );
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-   ===================================================== */
-
-function escapeHTML(
-  value
-) {
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-
-/* =====================================================
-   LOAD DATA DARI GOOGLE SPREADSHEET
-   ===================================================== */
-
-async function loadData() {
-
-  dataLoading.style.display =
-    "block";
-
-  dataEmpty.style.display =
-    "none";
-
-  dataList.innerHTML =
-    "";
-
-  summary.style.display =
-    "none";
-
-
-  try {
-
-    /*
-     * Apps Script menggunakan:
-     *
-     * ?action=list
-     *
-     * Response:
-     *
-     * {
-     *   success: true,
-     *   data: [...]
-     * }
-     */
-
-
-    const url =
-      API_URL +
-      "?action=list&t=" +
-      Date.now();
-
-
-    const response =
-      await fetch(
-        url,
-        {
-          method:
-            "GET",
-
-          cache:
-            "no-store",
-
-          redirect:
-            "follow"
-        }
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Server mengembalikan HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const result =
-      await response.json();
-
-
-    console.log(
-      "RESPONSE APPS SCRIPT:",
-      result
-    );
-
-
-    if (
-      !result ||
-      result.success !== true
-    ) {
-
-      throw new Error(
-        result?.message ||
-        "Data gagal diambil dari Spreadsheet."
-      );
-
-    }
-
-
-    /*
-     * Apps Script saat ini mengirim:
-     *
-     * result.data
-     */
-
-
-    let data =
-      Array.isArray(result.data)
-        ? result.data
-        : [];
-
-
-    dataLoading.style.display =
-      "none";
-
-
-    if (
-      data.length === 0
-    ) {
-
-      dataEmpty.style.display =
-        "block";
-
-      dataEmpty.textContent =
-        "Belum ada data damage.";
-
-      summary.style.display =
-        "none";
-
-      return;
-
-    }
-
-
-    /* =================================================
-       NORMALISASI DATA
-       ================================================= */
-
-    data =
-      data.map(
-        function(item) {
-
-          return {
-
-            no:
-              item.no ?? "",
-
-            sku:
-              item.sku ?? "",
-
-            namaBarang:
-              item.namaBarang ?? "",
-
-            qty:
-              item.qty ?? 0,
-
-            hargaTotal:
-              item.hargaTotal ?? 0,
-
-            reason:
-              item.reason ?? "",
-
-            fileId:
-              item.fileId ?? "",
-
-            imageUrl:
-              item.imageUrl ?? ""
-
-          };
-
-        }
-      );
-
-
-    /* =================================================
-       SORT DATA TERBARU
-       ================================================= */
-
-    data.sort(
-      function(a, b) {
-
-        return (
-          Number(b.no || 0) -
-          Number(a.no || 0)
-        );
-
-      }
-    );
-
-
-    /* =================================================
-       HITUNG TOTAL
-       ================================================= */
-
-    let amountTotal =
-      0;
-
-
-    data.forEach(
-      function(item) {
-
-        amountTotal +=
-          parseAmount(
-            item.hargaTotal
-          );
-
-      }
-    );
-
-
-    /* =================================================
-       RENDER DATA
-       ================================================= */
-
-    data.forEach(
-      function(item) {
-
-        const sku =
-          escapeHTML(
-            item.sku
-          );
-
-
-        const namaBarang =
-          escapeHTML(
-            item.namaBarang
-          );
-
-
-        const qty =
-          escapeHTML(
-            item.qty
-          );
-
-
-        const reason =
-          escapeHTML(
-            item.reason
-          );
-
-
-        const hargaTotal =
-          formatRupiah(
-            item.hargaTotal
-          );
-
-
-        const itemElement =
-          document.createElement(
-            "div"
-          );
-
-
-        itemElement.className =
-          "damage-item";
-
-
-        itemElement.innerHTML = `
-
-          <div class="damage-top">
-
-            <div class="damage-sku">
-              ${sku || "-"}
-            </div>
-
-          </div>
-
-
-          <div class="damage-info">
-
-            <div class="info-box">
-
-              <span class="info-label">
-                Nama Barang
-              </span>
-
-              <span class="info-value">
-                ${namaBarang || "-"}
-              </span>
-
-            </div>
-
-
-            <div class="info-box">
-
-              <span class="info-label">
-                QTY
-              </span>
-
-              <span class="info-value">
-                ${qty || "0"}
-              </span>
-
-            </div>
-
-
-            <div class="info-box">
-
-              <span class="info-label">
-                Harga Total
-              </span>
-
-              <span class="info-value amount">
-                ${hargaTotal}
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <div class="reason-box">
-
-            <span class="info-label">
-              Reason
-            </span>
-
-            <span class="info-value">
-              ${reason || "-"}
-            </span>
-
-          </div>
-
-        `;
-
-
-        dataList.appendChild(
-          itemElement
-        );
-
-      }
-    );
-
-
-    /* =================================================
-       SUMMARY
-       ================================================= */
-
-    totalSku.textContent =
-      data.length;
-
-
-    totalAmount.textContent =
-      formatRupiah(
-        amountTotal
-      );
-
-
-    summary.style.display =
-      "grid";
-
-
-  }
-  catch (error) {
-
-    console.error(
-      "LOAD DATA ERROR:",
-      error
-    );
-
-
-    dataLoading.style.display =
-      "none";
-
-
-    dataEmpty.style.display =
-      "block";
-
-
-    dataEmpty.textContent =
-      "Data gagal dimuat: " +
-      (
-        error.message ||
-        "Periksa koneksi."
-      );
-
-
-    summary.style.display =
-      "none";
-
-  }
-
-}
-
-
-/* =====================================================
-   LOAD DATA SAAT HALAMAN DIBUKA
-   ===================================================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    loadData();
 
   }
 );
