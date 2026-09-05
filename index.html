@@ -369,37 +369,37 @@ imageInput.addEventListener(
 "change",
 function() {
 
-  const file =
-  this.files[0];
-
+  const file = this.files[0];
 
   if (!file) {
 
-    preview.style.display =
-    "none";
-
-    previewImage.src =
-    "";
+    preview.style.display = "none";
+    previewImage.src = "";
 
     return;
 
   }
 
 
-  if (
-    !file.type.startsWith("image/")
-  ) {
+  if (!file.type.startsWith("image/")) {
 
     showStatus(
       "File harus berupa gambar.",
       "error"
     );
 
-    this.value =
-    "";
+    this.value = "";
 
     return;
 
+  }
+
+
+  // Bersihkan URL preview sebelumnya
+  if (previewImage.dataset.url) {
+    URL.revokeObjectURL(
+      previewImage.dataset.url
+    );
   }
 
 
@@ -407,17 +407,22 @@ function() {
   URL.createObjectURL(file);
 
 
-  previewImage.src =
-  url;
+  previewImage.src = url;
 
-  preview.style.display =
-  "block";
+  previewImage.dataset.url = url;
+
+  preview.style.display = "block";
+
+
+  // Hilangkan pesan error
+  statusBox.className = "status";
+  statusBox.textContent = "";
 
 });
 
 
 /*************************************************
- * SUBMIT
+ * SUBMIT FORM
  *************************************************/
 
 form.addEventListener(
@@ -426,6 +431,10 @@ async function(event) {
 
   event.preventDefault();
 
+
+  // --------------------------------------------
+  // AMBIL DATA
+  // --------------------------------------------
 
   const sku =
   skuInput.value.trim();
@@ -440,9 +449,9 @@ async function(event) {
   imageInput.files[0];
 
 
-  // ==========================================
-  // VALIDASI
-  // ==========================================
+  // --------------------------------------------
+  // VALIDASI SKU
+  // --------------------------------------------
 
   if (!sku) {
 
@@ -458,10 +467,17 @@ async function(event) {
   }
 
 
-  if (!qty || qty <= 0) {
+  // --------------------------------------------
+  // VALIDASI QTY
+  // --------------------------------------------
+
+  if (
+    !Number.isInteger(qty) ||
+    qty <= 0
+  ) {
 
     showStatus(
-      "QTY harus lebih dari 0.",
+      "QTY harus berupa angka lebih dari 0.",
       "error"
     );
 
@@ -471,6 +487,10 @@ async function(event) {
 
   }
 
+
+  // --------------------------------------------
+  // VALIDASI REASON
+  // --------------------------------------------
 
   if (!reason) {
 
@@ -486,6 +506,10 @@ async function(event) {
   }
 
 
+  // --------------------------------------------
+  // VALIDASI GAMBAR
+  // --------------------------------------------
+
   if (!file) {
 
     showStatus(
@@ -500,56 +524,61 @@ async function(event) {
 
   try {
 
-
     setLoading(true);
 
 
-    // ========================================
+    showStatus(
+      "",
+      ""
+    );
+
+
+    // ------------------------------------------
     // COMPRESS GAMBAR
-    // ========================================
+    // ------------------------------------------
 
     const imageBase64 =
     await compressImage(file);
 
 
-    // ========================================
+    // ------------------------------------------
     // PAYLOAD
-    // ========================================
+    // ------------------------------------------
 
     const payload = {
 
-      sku:
-      sku,
+      sku: sku,
 
-      qty:
-      qty,
+      qty: qty,
 
-      reason:
-      reason,
+      reason: reason,
 
-      imageBase64:
-      imageBase64
+      imageBase64: imageBase64
 
     };
 
 
     console.log(
-      "PAYLOAD:",
-      payload
+      "Mengirim data:",
+      {
+        sku: sku,
+        qty: qty,
+        reason: reason,
+        imageSize: imageBase64.length
+      }
     );
 
 
-    // ========================================
-    // KIRIM
-    // ========================================
+    // ------------------------------------------
+    // KIRIM KE APPS SCRIPT
+    // ------------------------------------------
 
     const response =
     await fetch(
       API_URL,
       {
 
-        method:
-        "POST",
+        method: "POST",
 
         headers: {
 
@@ -565,19 +594,37 @@ async function(event) {
     );
 
 
+    // ------------------------------------------
+    // CEK HTTP RESPONSE
+    // ------------------------------------------
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server mengembalikan HTTP " +
+        response.status
+      );
+
+    }
+
+
+    // ------------------------------------------
+    // BACA RESPONSE
+    // ------------------------------------------
+
     const result =
     await response.json();
 
 
     console.log(
-      "RESPONSE:",
+      "Response Apps Script:",
       result
     );
 
 
-    // ========================================
-    // CEK RESPONSE
-    // ========================================
+    // ------------------------------------------
+    // CEK HASIL APPS SCRIPT
+    // ------------------------------------------
 
     if (!result.success) {
 
@@ -589,43 +636,72 @@ async function(event) {
     }
 
 
-    // ========================================
+    // ------------------------------------------
+    // NOMOR DATA
+    // ------------------------------------------
+
+    const nomor =
+    result.no ??
+    result.data?.no ??
+    "-";
+
+
+    // ------------------------------------------
     // BERHASIL
-    // ========================================
+    // ------------------------------------------
 
     showStatus(
 
       "✓ Data berhasil disimpan. No: " +
-      result.data.no,
+      nomor,
 
       "success"
 
     );
 
 
-    // ========================================
-    // RESET
-    // ========================================
+    // ------------------------------------------
+    // RESET FORM
+    // ------------------------------------------
 
     form.reset();
+
 
     preview.style.display =
     "none";
 
-    previewImage.src =
-    "";
+
+    if (previewImage.dataset.url) {
+
+      URL.revokeObjectURL(
+        previewImage.dataset.url
+      );
+
+    }
+
+
+    previewImage.src = "";
+
+    previewImage.dataset.url = "";
+
+
+    // Kembalikan fokus ke SKU
+    skuInput.focus();
 
 
   }
   catch(error) {
 
-    console.error(error);
+    console.error(
+      "ERROR:",
+      error
+    );
 
 
     showStatus(
 
       error.message ||
-      "Terjadi kesalahan.",
+      "Terjadi kesalahan saat menyimpan data.",
 
       "error"
 
@@ -671,9 +747,14 @@ function compressImage(file) {
         img.height;
 
 
+        // Ukuran maksimal
         const maxSize =
         1200;
 
+
+        // --------------------------------------
+        // RESIZE
+        // --------------------------------------
 
         if (
           width > maxSize ||
@@ -710,6 +791,10 @@ function compressImage(file) {
         }
 
 
+        // --------------------------------------
+        // CANVAS
+        // --------------------------------------
+
         const canvas =
         document.createElement(
           "canvas"
@@ -738,6 +823,10 @@ function compressImage(file) {
         );
 
 
+        // --------------------------------------
+        // JPEG
+        // --------------------------------------
+
         const result =
         canvas.toDataURL(
           "image/jpeg",
@@ -751,7 +840,15 @@ function compressImage(file) {
 
 
       img.onerror =
-      reject;
+      function() {
+
+        reject(
+          new Error(
+            "Gambar tidak dapat diproses."
+          )
+        );
+
+      };
 
 
       img.src =
@@ -761,7 +858,15 @@ function compressImage(file) {
 
 
     reader.onerror =
-    reject;
+    function() {
+
+      reject(
+        new Error(
+          "Gagal membaca file gambar."
+        )
+      );
+
+    };
 
 
     reader.readAsDataURL(file);
@@ -804,8 +909,19 @@ message,
 type
 ) {
 
+  if (!message) {
+
+    statusBox.textContent = "";
+    statusBox.className = "status";
+
+    return;
+
+  }
+
+
   statusBox.textContent =
   message;
+
 
   statusBox.className =
   "status " + type;
