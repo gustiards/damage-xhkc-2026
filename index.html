@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Form Damage</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background:
+    #f4f6f8;
+
+  color: #1f2937;
+
+}
+
+
+.container {
+
+  width: 100%;
+
+  max-width: 520px;
+
+  margin: auto;
+
+  padding: 20px;
+
+}
+
+
+.card {
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,.08);
+
+}
+
+
+.header {
+
+  margin-bottom: 22px;
+
+}
+
+
+.header h1 {
+
+  margin: 0;
+
+  font-size: 25px;
+
+}
+
+
+.header p {
+
+  margin: 6px 0 0;
+
+  color: #6b7280;
+
+  font-size: 14px;
+
+}
+
+
+.form-group {
+
+  margin-bottom: 18px;
+
+}
+
+
+label {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+}
+
+
+input,
+textarea,
+button {
+
+  width: 100%;
+
+  font-family: inherit;
+
+}
+
+
+input,
+textarea {
+
+  border:
+    1px solid #d1d5db;
+
+  border-radius: 11px;
+
+  padding: 13px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  background: white;
+
+}
+
+
+input:focus,
+textarea:focus {
+
+  border-color: #111827;
+
+}
+
+
+textarea {
+
+  min-height: 100px;
+
+  resize: vertical;
+
+}
+
+
+.auto-field {
+
+  background: #f3f4f6;
+
+  color: #374151;
+
+}
+
+
+.price-box {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+
+.price-box span {
+
+  font-weight: bold;
+
+}
+
+
+.file-box {
+
+  border:
+    2px dashed #d1d5db;
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  text-align: center;
+
+}
+
+
+.file-box input {
+
+  border: 0;
+
+  padding: 0;
+
+}
+
+
+.preview {
+
+  display: none;
+
+  margin-top: 12px;
+
+}
+
+
+.preview img {
+
+  width: 100%;
+
+  max-height: 250px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+
+}
+
+
+button {
+
+  border: 0;
+
+  border-radius: 12px;
+
+  padding: 14px;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  background: #111827;
+
+  color: white;
+
+}
+
+
+button:disabled {
+
+  opacity: .6;
+
+  cursor: not-allowed;
+
+}
+
+
+.status {
+
+  display: none;
+
+  margin-top: 15px;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+
+}
+
+
+.status.success {
+
+  display: block;
+
+  background: #dcfce7;
+
+  color: #166534;
+
+}
+
+
+.status.error {
+
+  display: block;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+}
+
+
+.loading {
+
+  display: none;
+
+  margin-top: 12px;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  color: #6b7280;
+
+}
+
+
+.small {
+
+  font-size: 12px;
+
+  color: #6b7280;
+
+  margin-top: 5px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+  <div class="card">
+
+    <div class="header">
+
+      <h1>Form Damage</h1>
+
+      <p>Input laporan kerusakan barang</p>
+
+    </div>
+
+
+    <form id="damageForm">
+
+
+      <!-- SKU -->
+
+      <div class="form-group">
+
+        <label for="sku">
+          SKU
+        </label>
+
+        <input
+          type="text"
+          id="sku"
+          name="sku"
+          placeholder="Masukkan SKU"
+          autocomplete="off"
+          required
+        >
+
+        <div class="small" id="skuStatus"></div>
+
+      </div>
+
+
+      <!-- NAMA BARANG -->
+
+      <div class="form-group">
+
+        <label>
+          Nama Barang
+        </label>
+
+        <input
+          type="text"
+          id="namaBarang"
+          class="auto-field"
+          placeholder="Otomatis dari Spreadsheet"
+          readonly
+        >
+
+      </div>
+
+
+      <!-- HARGA -->
+
+      <div class="form-group">
+
+        <label>
+          Harga
+        </label>
+
+        <input
+          type="text"
+          id="harga"
+          class="auto-field"
+          placeholder="Otomatis dari Spreadsheet"
+          readonly
+        >
+
+      </div>
+
+
+      <!-- GAMBAR -->
+
+      <div class="form-group">
+
+        <label>
+          Gambar Damage
+        </label>
+
+        <div class="file-box">
+
+          <input
+            type="file"
+            id="image"
+            accept="image/*"
+            capture="environment"
+            required
+          >
+
+          <div class="small">
+            Ambil foto atau pilih gambar damage
+          </div>
+
+          <div
+            class="preview"
+            id="preview"
+          >
+            <img
+              id="previewImage"
+              alt="Preview"
+            >
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- QTY -->
+
+      <div class="form-group">
+
+        <label for="qty">
+          QTY
+        </label>
+
+        <input
+          type="number"
+          id="qty"
+          name="qty"
+          min="1"
+          step="1"
+          placeholder="Masukkan jumlah"
+          required
+        >
+
+      </div>
+
+
+      <!-- REASON -->
+
+      <div class="form-group">
+
+        <label for="reason">
+          Reason
+        </label>
+
+        <textarea
+          id="reason"
+          name="reason"
+          placeholder="Contoh: SOBEK, PECAH, RUSAK..."
+          required
+        ></textarea>
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="submitButton"
+      >
+        SIMPAN DATA
+      </button>
+
+
+      <div
+        class="loading"
+        id="loading"
+      >
+        Menyimpan data...
+      </div>
+
+
+      <div
+        class="status"
+        id="status"
+      ></div>
+
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/*************************************************
+ * URL GOOGLE APPS SCRIPT
+ *************************************************/
+
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbw6mS8s89FS3sZ6Xa5ZqJorbqFxURs_XlCkPgC2kQUR2aIerj9DemZ-PU8hctLRO8EUng/exec";
+
+
+/*************************************************
+ * ELEMENT
+ *************************************************/
+
+const form =
+  document.getElementById("damageForm");
+
+const skuInput =
+  document.getElementById("sku");
+
+const namaBarang =
+  document.getElementById("namaBarang");
+
+const hargaInput =
+  document.getElementById("harga");
+
+const imageInput =
+  document.getElementById("image");
+
+const preview =
+  document.getElementById("preview");
+
+const previewImage =
+  document.getElementById("previewImage");
+
+const qtyInput =
+  document.getElementById("qty");
+
+const reasonInput =
+  document.getElementById("reason");
+
+const submitButton =
+  document.getElementById("submitButton");
+
+const loading =
+  document.getElementById("loading");
+
+const statusBox =
+  document.getElementById("status");
+
+const skuStatus =
+  document.getElementById("skuStatus");
+
+
+/*************************************************
+ * IMAGE PREVIEW
+ *************************************************/
+
+imageInput.addEventListener(
+  "change",
+  function () {
+
+    const file =
+      this.files[0];
+
+    if (!file) {
+
+      preview.style.display = "none";
+
+      return;
+    }
+
+
+    if (!file.type.startsWith("image/")) {
+
+      showStatus(
+        "File harus berupa gambar.",
+        "error"
+      );
+
+      this.value = "";
+
+      return;
+    }
+
+
+    const url =
+      URL.createObjectURL(file);
+
+    previewImage.src = url;
+
+    preview.style.display = "block";
+
+  }
+);
+
+
+/*************************************************
+ * VALIDASI SKU
+ *************************************************/
+
+skuInput.addEventListener(
+  "blur",
+  function () {
+
+    if (!this.value.trim()) {
+      return;
+    }
+
+    /*
+     * Nama barang dan harga akan
+     * diverifikasi ketika submit.
+     *
+     * Karena Apps Script tidak perlu
+     * mengambil seluruh spreadsheet,
+     * proses tetap ringan.
+     */
+
+    skuStatus.textContent =
+      "SKU akan diperiksa saat disimpan.";
+
+  }
+);
+
+
+/*************************************************
+ * SUBMIT
+ *************************************************/
+
+form.addEventListener(
+  "submit",
+  async function (event) {
+
+    event.preventDefault();
+
+
+    const sku =
+      skuInput.value.trim();
+
+    const qty =
+      Number(qtyInput.value);
+
+    const reason =
+      reasonInput.value.trim();
+
+    const file =
+      imageInput.files[0];
+
+
+    // ==========================================
+    // VALIDASI
+    // ==========================================
+
+    if (!sku) {
+
+      showStatus(
+        "SKU wajib diisi.",
+        "error"
+      );
+
+      skuInput.focus();
+
+      return;
+    }
+
+
+    if (!qty || qty <= 0) {
+
+      showStatus(
+        "QTY harus lebih dari 0.",
+        "error"
+      );
+
+      qtyInput.focus();
+
+      return;
+    }
+
+
+    if (!reason) {
+
+      showStatus(
+        "Reason wajib diisi.",
+        "error"
+      );
+
+      reasonInput.focus();
+
+      return;
+    }
+
+
+    if (!file) {
+
+      showStatus(
+        "Gambar damage wajib diupload.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    try {
+
+      setLoading(true);
+
+
+      // ========================================
+      // COMPRESS GAMBAR
+      // ========================================
+
+      const imageBase64 =
+        await compressImage(file);
+
+
+      // ========================================
+      // DATA
+      // ========================================
+
+      const payload = {
+
+        sku: sku,
+
+        qty: qty,
+
+        reason: reason,
+
+        imageBase64: imageBase64
+
+      };
+
+
+      // ========================================
+      // KIRIM KE APPS SCRIPT
+      // ========================================
+
+      const response =
+        await fetch(
+          API_URL,
+          {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "text/plain;charset=utf-8"
+            },
+
+            body:
+              JSON.stringify(payload)
+
+          }
+        );
+
+
+      const result =
+        await response.json();
+
+
+      // ========================================
+      // RESPONSE
+      // ========================================
+
+      if (!result.success) {
+
+        throw new Error(
+          result.message ||
+          "Data gagal disimpan."
+        );
+
+      }
+
+
+      // ========================================
+      // BERHASIL
+      // ========================================
+
+      showStatus(
+        "✓ Data berhasil disimpan. No: " +
+        result.data.no,
+        "success"
+      );
+
+
+      // Reset
+      form.reset();
+
+      namaBarang.value = "";
+
+      hargaInput.value = "";
+
+      preview.style.display = "none";
+
+      previewImage.src = "";
+
+      skuStatus.textContent = "";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      showStatus(
+        error.message ||
+        "Terjadi kesalahan.",
+        "error"
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  }
+);
+
+
+/*************************************************
+ * COMPRESS IMAGE
+ *************************************************/
+
+function compressImage(file) {
+
+  return new Promise(
+    function (resolve, reject) {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload = function (event) {
+
+        const img =
+          new Image();
+
+
+        img.onload = function () {
+
+          let width =
+            img.width;
+
+          let height =
+            img.height;
+
+
+          const maxSize = 1200;
+
+
+          if (
+            width > maxSize ||
+            height > maxSize
+          ) {
+
+            if (width > height) {
+
+              height =
+                Math.round(
+                  height *
+                  maxSize /
+                  width
+                );
+
+              width =
+                maxSize;
+
+            } else {
+
+              width =
+                Math.round(
+                  width *
+                  maxSize /
+                  height
+                );
+
+              height =
+                maxSize;
+
+            }
+
+          }
+
+
+          const canvas =
+            document.createElement(
+              "canvas"
+            );
+
+
+          canvas.width =
+            width;
+
+          canvas.height =
+            height;
+
+
+          const ctx =
+            canvas.getContext(
+              "2d"
+            );
+
+
+          ctx.drawImage(
+            img,
+            0,
+            0,
+            width,
+            height
+          );
+
+
+          const result =
+            canvas.toDataURL(
+              "image/jpeg",
+              0.75
+            );
+
+
+          resolve(result);
+
+        };
+
+
+        img.onerror =
+          reject;
+
+
+        img.src =
+          event.target.result;
+
+      };
+
+
+      reader.onerror =
+        reject;
+
+
+      reader.readAsDataURL(file);
+
+    }
+  );
+
+}
+
+
+/*************************************************
+ * LOADING
+ *************************************************/
+
+function setLoading(isLoading) {
+
+  submitButton.disabled =
+    isLoading;
+
+  loading.style.display =
+    isLoading
+      ? "block"
+      : "none";
+
+
+  submitButton.textContent =
+    isLoading
+      ? "MENYIMPAN..."
+      : "SIMPAN DATA";
+
+}
+
+
+/*************************************************
+ * STATUS
+ *************************************************/
+
+function showStatus(
+  message,
+  type
+) {
+
+  statusBox.textContent =
+    message;
+
+  statusBox.className =
+    "status " + type;
+
+}
+
+</script>
+
+</body>
+
+</html>
