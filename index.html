@@ -174,7 +174,6 @@ button:disabled {
 
 <body>
 
-
 <div class="container">
 
 <div class="card">
@@ -190,8 +189,6 @@ button:disabled {
 
 <form id="damageForm">
 
-
-<!-- SKU -->
 
 <div class="form-group">
 
@@ -209,8 +206,6 @@ SKU
 
 </div>
 
-
-<!-- GAMBAR -->
 
 <div class="form-group">
 
@@ -249,8 +244,6 @@ Ambil foto atau pilih gambar damage
 </div>
 
 
-<!-- QTY -->
-
 <div class="form-group">
 
 <label for="qty">
@@ -268,8 +261,6 @@ QTY
 
 </div>
 
-
-<!-- REASON -->
 
 <div class="form-group">
 
@@ -318,17 +309,9 @@ Menyimpan data...
 <script>
 
 
-/*************************************************
- * APPS SCRIPT URL
- *************************************************/
-
 const API_URL =
 "https://script.google.com/macros/s/AKfycbw6mS8s89FS3sZ6Xa5ZqJorbqFxURs_XlCkPgC2kQUR2aIerj9DemZ-PU8hctLRO8EUng/exec";
 
-
-/*************************************************
- * ELEMENT
- *************************************************/
 
 const form =
 document.getElementById("damageForm");
@@ -361,25 +344,28 @@ const statusBox =
 document.getElementById("status");
 
 
-/*************************************************
- * PREVIEW GAMBAR
- *************************************************/
+// ==================================================
+// PREVIEW
+// ==================================================
 
 imageInput.addEventListener(
 "change",
 function() {
 
-  const file = this.files[0];
+  const file =
+    this.files[0];
 
   if (!file) {
 
-    preview.style.display = "none";
-    previewImage.src = "";
+    preview.style.display =
+      "none";
+
+    previewImage.src =
+      "";
 
     return;
 
   }
-
 
   if (!file.type.startsWith("image/")) {
 
@@ -394,36 +380,21 @@ function() {
 
   }
 
-
-  // Bersihkan URL preview sebelumnya
-  if (previewImage.dataset.url) {
-    URL.revokeObjectURL(
-      previewImage.dataset.url
-    );
-  }
-
-
   const url =
-  URL.createObjectURL(file);
+    URL.createObjectURL(file);
 
+  previewImage.src =
+    url;
 
-  previewImage.src = url;
-
-  previewImage.dataset.url = url;
-
-  preview.style.display = "block";
-
-
-  // Hilangkan pesan error
-  statusBox.className = "status";
-  statusBox.textContent = "";
+  preview.style.display =
+    "block";
 
 });
 
 
-/*************************************************
- * SUBMIT FORM
- *************************************************/
+// ==================================================
+// SUBMIT
+// ==================================================
 
 form.addEventListener(
 "submit",
@@ -432,26 +403,22 @@ async function(event) {
   event.preventDefault();
 
 
-  // --------------------------------------------
-  // AMBIL DATA
-  // --------------------------------------------
-
   const sku =
-  skuInput.value.trim();
+    skuInput.value.trim();
 
   const qty =
-  Number(qtyInput.value);
+    Number(qtyInput.value);
 
   const reason =
-  reasonInput.value.trim();
+    reasonInput.value.trim();
 
   const file =
-  imageInput.files[0];
+    imageInput.files[0];
 
 
-  // --------------------------------------------
-  // VALIDASI SKU
-  // --------------------------------------------
+  // ----------------------------------------------
+  // VALIDASI
+  // ----------------------------------------------
 
   if (!sku) {
 
@@ -467,17 +434,13 @@ async function(event) {
   }
 
 
-  // --------------------------------------------
-  // VALIDASI QTY
-  // --------------------------------------------
-
   if (
     !Number.isInteger(qty) ||
     qty <= 0
   ) {
 
     showStatus(
-      "QTY harus berupa angka lebih dari 0.",
+      "QTY harus lebih dari 0.",
       "error"
     );
 
@@ -487,10 +450,6 @@ async function(event) {
 
   }
 
-
-  // --------------------------------------------
-  // VALIDASI REASON
-  // --------------------------------------------
 
   if (!reason) {
 
@@ -505,10 +464,6 @@ async function(event) {
 
   }
 
-
-  // --------------------------------------------
-  // VALIDASI GAMBAR
-  // --------------------------------------------
 
   if (!file) {
 
@@ -527,104 +482,78 @@ async function(event) {
     setLoading(true);
 
 
-    showStatus(
-      "",
-      ""
-    );
-
-
-    // ------------------------------------------
-    // COMPRESS GAMBAR
-    // ------------------------------------------
+    // --------------------------------------------
+    // COMPRESS
+    // --------------------------------------------
 
     const imageBase64 =
-    await compressImage(file);
+      await compressImage(file);
 
 
-    // ------------------------------------------
+    // --------------------------------------------
     // PAYLOAD
-    // ------------------------------------------
+    // --------------------------------------------
 
     const payload = {
 
-      sku: sku,
+      sku:
+        sku,
 
-      qty: qty,
+      qty:
+        qty,
 
-      reason: reason,
+      reason:
+        reason,
 
-      imageBase64: imageBase64
+      imageBase64:
+        imageBase64
 
     };
 
 
     console.log(
-      "Mengirim data:",
-      {
-        sku: sku,
-        qty: qty,
-        reason: reason,
-        imageSize: imageBase64.length
-      }
+      "Mengirim:",
+      payload
     );
 
 
-    // ------------------------------------------
-    // KIRIM KE APPS SCRIPT
-    // ------------------------------------------
+    // --------------------------------------------
+    // POST
+    // --------------------------------------------
 
     const response =
-    await fetch(
-      API_URL,
-      {
+      await fetch(
+        API_URL,
+        {
 
-        method: "POST",
+          method:
+            "POST",
 
-        headers: {
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
 
-          "Content-Type":
-          "text/plain;charset=utf-8"
+          body:
+            JSON.stringify(payload)
 
-        },
-
-        body:
-        JSON.stringify(payload)
-
-      }
-    );
-
-
-    // ------------------------------------------
-    // CEK HTTP RESPONSE
-    // ------------------------------------------
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Server mengembalikan HTTP " +
-        response.status
+        }
       );
 
-    }
-
-
-    // ------------------------------------------
-    // BACA RESPONSE
-    // ------------------------------------------
 
     const result =
-    await response.json();
+      await response.json();
 
 
     console.log(
-      "Response Apps Script:",
+      "Response:",
       result
     );
 
 
-    // ------------------------------------------
-    // CEK HASIL APPS SCRIPT
-    // ------------------------------------------
+    // --------------------------------------------
+    // RESPONSE ERROR
+    // --------------------------------------------
 
     if (!result.success) {
 
@@ -636,56 +565,33 @@ async function(event) {
     }
 
 
-    // ------------------------------------------
-    // NOMOR DATA
-    // ------------------------------------------
-
-    const nomor =
-    result.no ??
-    result.data?.no ??
-    "-";
-
-
-    // ------------------------------------------
+    // --------------------------------------------
     // BERHASIL
-    // ------------------------------------------
+    // --------------------------------------------
 
     showStatus(
 
       "✓ Data berhasil disimpan. No: " +
-      nomor,
+      result.no,
 
       "success"
 
     );
 
 
-    // ------------------------------------------
-    // RESET FORM
-    // ------------------------------------------
+    // --------------------------------------------
+    // RESET
+    // --------------------------------------------
 
     form.reset();
 
-
     preview.style.display =
-    "none";
+      "none";
+
+    previewImage.src =
+      "";
 
 
-    if (previewImage.dataset.url) {
-
-      URL.revokeObjectURL(
-        previewImage.dataset.url
-      );
-
-    }
-
-
-    previewImage.src = "";
-
-    previewImage.dataset.url = "";
-
-
-    // Kembalikan fokus ke SKU
     skuInput.focus();
 
 
@@ -701,7 +607,7 @@ async function(event) {
     showStatus(
 
       error.message ||
-      "Terjadi kesalahan saat menyimpan data.",
+      "Terjadi kesalahan.",
 
       "error"
 
@@ -717,9 +623,9 @@ async function(event) {
 });
 
 
-/*************************************************
- * COMPRESS GAMBAR
- *************************************************/
+// ==================================================
+// COMPRESS IMAGE
+// ==================================================
 
 function compressImage(file) {
 
@@ -727,146 +633,133 @@ function compressImage(file) {
   function(resolve, reject) {
 
     const reader =
-    new FileReader();
+      new FileReader();
 
 
     reader.onload =
-    function(event) {
+      function(event) {
 
-      const img =
-      new Image();
-
-
-      img.onload =
-      function() {
-
-        let width =
-        img.width;
-
-        let height =
-        img.height;
+        const img =
+          new Image();
 
 
-        // Ukuran maksimal
-        const maxSize =
-        1200;
+        img.onload =
+          function() {
+
+            let width =
+              img.width;
+
+            let height =
+              img.height;
 
 
-        // --------------------------------------
-        // RESIZE
-        // --------------------------------------
+            const maxSize =
+              1200;
 
-        if (
-          width > maxSize ||
-          height > maxSize
-        ) {
 
-          if (width > height) {
+            if (
+              width > maxSize ||
+              height > maxSize
+            ) {
 
-            height =
-            Math.round(
-              height *
-              maxSize /
-              width
-            );
+              if (width > height) {
 
-            width =
-            maxSize;
+                height =
+                  Math.round(
+                    height *
+                    maxSize /
+                    width
+                  );
 
-          }
-          else {
+                width =
+                  maxSize;
 
-            width =
-            Math.round(
-              width *
-              maxSize /
+              }
+              else {
+
+                width =
+                  Math.round(
+                    width *
+                    maxSize /
+                    height
+                  );
+
+                height =
+                  maxSize;
+
+              }
+
+            }
+
+
+            const canvas =
+              document.createElement(
+                "canvas"
+              );
+
+
+            canvas.width =
+              width;
+
+            canvas.height =
+              height;
+
+
+            const ctx =
+              canvas.getContext(
+                "2d"
+              );
+
+
+            ctx.drawImage(
+              img,
+              0,
+              0,
+              width,
               height
             );
 
-            height =
-            maxSize;
 
-          }
-
-        }
-
-
-        // --------------------------------------
-        // CANVAS
-        // --------------------------------------
-
-        const canvas =
-        document.createElement(
-          "canvas"
-        );
+            const result =
+              canvas.toDataURL(
+                "image/jpeg",
+                0.75
+              );
 
 
-        canvas.width =
-        width;
+            resolve(result);
 
-        canvas.height =
-        height;
+          };
 
 
-        const ctx =
-        canvas.getContext(
-          "2d"
-        );
+        img.onerror =
+          function() {
+
+            reject(
+              new Error(
+                "Gambar gagal diproses."
+              )
+            );
+
+          };
 
 
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          width,
-          height
-        );
-
-
-        // --------------------------------------
-        // JPEG
-        // --------------------------------------
-
-        const result =
-        canvas.toDataURL(
-          "image/jpeg",
-          0.75
-        );
-
-
-        resolve(result);
+        img.src =
+          event.target.result;
 
       };
 
 
-      img.onerror =
+    reader.onerror =
       function() {
 
         reject(
           new Error(
-            "Gambar tidak dapat diproses."
+            "Gagal membaca gambar."
           )
         );
 
       };
-
-
-      img.src =
-      event.target.result;
-
-    };
-
-
-    reader.onerror =
-    function() {
-
-      reject(
-        new Error(
-          "Gagal membaca file gambar."
-        )
-      );
-
-    };
 
 
     reader.readAsDataURL(file);
@@ -876,33 +769,33 @@ function compressImage(file) {
 }
 
 
-/*************************************************
- * LOADING
- *************************************************/
+// ==================================================
+// LOADING
+// ==================================================
 
 function setLoading(isLoading) {
 
   submitButton.disabled =
-  isLoading;
+    isLoading;
 
 
   loading.style.display =
-  isLoading
-    ? "block"
-    : "none";
+    isLoading
+      ? "block"
+      : "none";
 
 
   submitButton.textContent =
-  isLoading
-    ? "MENYIMPAN..."
-    : "SIMPAN DATA";
+    isLoading
+      ? "MENYIMPAN..."
+      : "SIMPAN DATA";
 
 }
 
 
-/*************************************************
- * STATUS
- *************************************************/
+// ==================================================
+// STATUS
+// ==================================================
 
 function showStatus(
 message,
@@ -911,8 +804,11 @@ type
 
   if (!message) {
 
-    statusBox.textContent = "";
-    statusBox.className = "status";
+    statusBox.textContent =
+      "";
+
+    statusBox.className =
+      "status";
 
     return;
 
@@ -920,11 +816,10 @@ type
 
 
   statusBox.textContent =
-  message;
-
+    message;
 
   statusBox.className =
-  "status " + type;
+    "status " + type;
 
 }
 
