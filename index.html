@@ -19,235 +19,151 @@
 }
 
 body {
-
   margin: 0;
-
   min-height: 100vh;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  background:
-    #f4f6f8;
-
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
   color: #1f2937;
 }
 
 .container {
-
   width: 100%;
-
   max-width: 520px;
-
   margin: auto;
-
   padding: 20px;
 }
 
 .card {
-
   background: white;
-
   border-radius: 18px;
-
   padding: 22px;
-
-  box-shadow:
-    0 8px 30px
-    rgba(0,0,0,.08);
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
 }
 
 .header {
-
   margin-bottom: 22px;
 }
 
 .header h1 {
-
   margin: 0;
-
   font-size: 25px;
 }
 
 .header p {
-
   margin: 6px 0 0;
-
   color: #6b7280;
-
   font-size: 14px;
 }
 
 .form-group {
-
   margin-bottom: 18px;
 }
 
 label {
-
   display: block;
-
   margin-bottom: 7px;
-
   font-size: 14px;
-
   font-weight: 700;
 }
 
 input,
 textarea,
 button {
-
   width: 100%;
-
   font-family: inherit;
 }
 
 input,
 textarea {
-
-  border:
-    1px solid #d1d5db;
-
+  border: 1px solid #d1d5db;
   border-radius: 11px;
-
   padding: 13px;
-
   font-size: 15px;
-
   outline: none;
-
   background: white;
 }
 
 input:focus,
 textarea:focus {
-
   border-color: #111827;
 }
 
 textarea {
-
   min-height: 100px;
-
   resize: vertical;
 }
 
 .file-box {
-
-  border:
-    2px dashed #d1d5db;
-
+  border: 2px dashed #d1d5db;
   border-radius: 14px;
-
   padding: 18px;
-
   text-align: center;
 }
 
 .file-box input {
-
   border: 0;
-
   padding: 0;
 }
 
 .preview {
-
   display: none;
-
   margin-top: 12px;
 }
 
 .preview img {
-
   width: 100%;
-
   max-height: 250px;
-
   object-fit: cover;
-
   border-radius: 12px;
 }
 
 button {
-
   border: 0;
-
   border-radius: 12px;
-
   padding: 14px;
-
   font-size: 16px;
-
   font-weight: 700;
-
   cursor: pointer;
-
   background: #111827;
-
   color: white;
 }
 
 button:disabled {
-
   opacity: .6;
-
   cursor: not-allowed;
 }
 
 .status {
-
   display: none;
-
   margin-top: 15px;
-
   padding: 12px;
-
   border-radius: 10px;
-
   font-size: 14px;
 }
 
 .status.success {
-
   display: block;
-
   background: #dcfce7;
-
   color: #166534;
 }
 
 .status.error {
-
   display: block;
-
   background: #fee2e2;
-
   color: #991b1b;
 }
 
 .loading {
-
   display: none;
-
   margin-top: 12px;
-
   text-align: center;
-
   font-size: 14px;
-
   color: #6b7280;
 }
 
 .small {
-
   font-size: 12px;
-
   color: #6b7280;
-
   margin-top: 5px;
 }
 
@@ -261,155 +177,140 @@ button:disabled {
 
 <div class="container">
 
-  <div class="card">
+<div class="card">
 
-    <div class="header">
+<div class="header">
 
-      <h1>Form Damage</h1>
+<h1>Form Damage</h1>
 
-      <p>Input laporan kerusakan barang</p>
+<p>Input laporan kerusakan barang</p>
 
-    </div>
-
-
-    <form id="damageForm">
+</div>
 
 
-      <!-- =========================
-           SKU
-      ========================== -->
-
-      <div class="form-group">
-
-        <label for="sku">
-          SKU
-        </label>
-
-        <input
-          type="text"
-          id="sku"
-          name="sku"
-          placeholder="Masukkan SKU"
-          autocomplete="off"
-          required
-        >
-
-      </div>
+<form id="damageForm">
 
 
-      <!-- =========================
-           GAMBAR DAMAGE
-      ========================== -->
+<!-- SKU -->
 
-      <div class="form-group">
+<div class="form-group">
 
-        <label>
-          Gambar Damage
-        </label>
+<label for="sku">
+SKU
+</label>
 
-        <div class="file-box">
+<input
+  type="text"
+  id="sku"
+  placeholder="Masukkan SKU"
+  autocomplete="off"
+  required
+>
 
-          <input
-            type="file"
-            id="image"
-            accept="image/*"
-            capture="environment"
-            required
-          >
-
-          <div class="small">
-            Ambil foto atau pilih gambar damage
-          </div>
-
-          <div
-            class="preview"
-            id="preview"
-          >
-
-            <img
-              id="previewImage"
-              alt="Preview"
-            >
-
-          </div>
-
-        </div>
-
-      </div>
+</div>
 
 
-      <!-- =========================
-           QTY
-      ========================== -->
+<!-- GAMBAR -->
 
-      <div class="form-group">
+<div class="form-group">
 
-        <label for="qty">
-          QTY
-        </label>
+<label>
+Gambar Damage
+</label>
 
-        <input
-          type="number"
-          id="qty"
-          name="qty"
-          min="1"
-          step="1"
-          placeholder="Masukkan jumlah"
-          required
-        >
+<div class="file-box">
 
-      </div>
+<input
+  type="file"
+  id="image"
+  accept="image/*"
+  capture="environment"
+  required
+>
 
+<div class="small">
+Ambil foto atau pilih gambar damage
+</div>
 
-      <!-- =========================
-           REASON
-      ========================== -->
+<div
+  class="preview"
+  id="preview"
+>
 
-      <div class="form-group">
+<img
+  id="previewImage"
+  alt="Preview"
+>
 
-        <label for="reason">
-          Reason
-        </label>
+</div>
 
-        <textarea
-          id="reason"
-          name="reason"
-          placeholder="Contoh: SOBEK, PECAH, RUSAK..."
-          required
-        ></textarea>
+</div>
 
-      </div>
+</div>
 
 
-      <!-- =========================
-           BUTTON
-      ========================== -->
+<!-- QTY -->
 
-      <button
-        type="submit"
-        id="submitButton"
-      >
-        SIMPAN DATA
-      </button>
+<div class="form-group">
 
+<label for="qty">
+QTY
+</label>
 
-      <div
-        class="loading"
-        id="loading"
-      >
-        Menyimpan data...
-      </div>
+<input
+  type="number"
+  id="qty"
+  min="1"
+  step="1"
+  placeholder="Masukkan jumlah"
+  required
+>
 
-
-      <div
-        class="status"
-        id="status"
-      ></div>
+</div>
 
 
-    </form>
+<!-- REASON -->
 
-  </div>
+<div class="form-group">
+
+<label for="reason">
+Reason
+</label>
+
+<textarea
+  id="reason"
+  placeholder="Contoh: SOBEK, PECAH, RUSAK..."
+  required
+></textarea>
+
+</div>
+
+
+<button
+  type="submit"
+  id="submitButton"
+>
+SIMPAN DATA
+</button>
+
+
+<div
+  class="loading"
+  id="loading"
+>
+Menyimpan data...
+</div>
+
+
+<div
+  class="status"
+  id="status"
+></div>
+
+
+</form>
+
+</div>
 
 </div>
 
@@ -418,11 +319,11 @@ button:disabled {
 
 
 /*************************************************
- * URL GOOGLE APPS SCRIPT
+ * APPS SCRIPT URL
  *************************************************/
 
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbw6mS8s89FS3sZ6Xa5ZqJorbqFxURs_XlCkPgC2kQUR2aIerj9DemZ-PU8hctLRO8EUng/exec";
+"https://script.google.com/macros/s/AKfycbw6mS8s89FS3sZ6Xa5ZqJorbqFxURs_XlCkPgC2kQUR2aIerj9DemZ-PU8hctLRO8EUng/exec";
 
 
 /*************************************************
@@ -430,79 +331,89 @@ const API_URL =
  *************************************************/
 
 const form =
-  document.getElementById("damageForm");
+document.getElementById("damageForm");
 
 const skuInput =
-  document.getElementById("sku");
+document.getElementById("sku");
 
 const imageInput =
-  document.getElementById("image");
-
-const preview =
-  document.getElementById("preview");
-
-const previewImage =
-  document.getElementById("previewImage");
+document.getElementById("image");
 
 const qtyInput =
-  document.getElementById("qty");
+document.getElementById("qty");
 
 const reasonInput =
-  document.getElementById("reason");
+document.getElementById("reason");
+
+const preview =
+document.getElementById("preview");
+
+const previewImage =
+document.getElementById("previewImage");
 
 const submitButton =
-  document.getElementById("submitButton");
+document.getElementById("submitButton");
 
 const loading =
-  document.getElementById("loading");
+document.getElementById("loading");
 
 const statusBox =
-  document.getElementById("status");
+document.getElementById("status");
 
 
 /*************************************************
- * IMAGE PREVIEW
+ * PREVIEW GAMBAR
  *************************************************/
 
 imageInput.addEventListener(
-  "change",
-  function () {
+"change",
+function() {
 
-    const file =
-      this.files[0];
+  const file =
+  this.files[0];
 
-    if (!file) {
 
-      preview.style.display = "none";
+  if (!file) {
 
-      previewImage.src = "";
+    preview.style.display =
+    "none";
 
-      return;
-    }
+    previewImage.src =
+    "";
 
-    if (!file.type.startsWith("image/")) {
-
-      showStatus(
-        "File harus berupa gambar.",
-        "error"
-      );
-
-      this.value = "";
-
-      preview.style.display = "none";
-
-      return;
-    }
-
-    const url =
-      URL.createObjectURL(file);
-
-    previewImage.src = url;
-
-    preview.style.display = "block";
+    return;
 
   }
-);
+
+
+  if (
+    !file.type.startsWith("image/")
+  ) {
+
+    showStatus(
+      "File harus berupa gambar.",
+      "error"
+    );
+
+    this.value =
+    "";
+
+    return;
+
+  }
+
+
+  const url =
+  URL.createObjectURL(file);
+
+
+  previewImage.src =
+  url;
+
+  preview.style.display =
+  "block";
+
+});
 
 
 /*************************************************
@@ -510,352 +421,352 @@ imageInput.addEventListener(
  *************************************************/
 
 form.addEventListener(
-  "submit",
-  async function (event) {
+"submit",
+async function(event) {
 
-    event.preventDefault();
+  event.preventDefault();
 
-    const sku =
-      skuInput.value.trim();
 
-    const qty =
-      Number(qtyInput.value);
+  const sku =
+  skuInput.value.trim();
 
-    const reason =
-      reasonInput.value.trim();
+  const qty =
+  Number(qtyInput.value);
 
-    const file =
-      imageInput.files[0];
+  const reason =
+  reasonInput.value.trim();
 
+  const file =
+  imageInput.files[0];
 
-    // ==========================================
-    // VALIDASI SKU
-    // ==========================================
 
-    if (!sku) {
+  // ==========================================
+  // VALIDASI
+  // ==========================================
 
-      showStatus(
-        "SKU wajib diisi.",
-        "error"
-      );
+  if (!sku) {
 
-      skuInput.focus();
+    showStatus(
+      "SKU wajib diisi.",
+      "error"
+    );
 
-      return;
-    }
+    skuInput.focus();
 
-
-    // ==========================================
-    // VALIDASI QTY
-    // ==========================================
-
-    if (!qty || qty <= 0) {
-
-      showStatus(
-        "QTY harus lebih dari 0.",
-        "error"
-      );
-
-      qtyInput.focus();
-
-      return;
-    }
-
-
-    // ==========================================
-    // VALIDASI REASON
-    // ==========================================
-
-    if (!reason) {
-
-      showStatus(
-        "Reason wajib diisi.",
-        "error"
-      );
-
-      reasonInput.focus();
-
-      return;
-    }
-
-
-    // ==========================================
-    // VALIDASI GAMBAR
-    // ==========================================
-
-    if (!file) {
-
-      showStatus(
-        "Gambar damage wajib diupload.",
-        "error"
-      );
-
-      return;
-    }
-
-
-    try {
-
-      setLoading(true);
-
-
-      // ========================================
-      // COMPRESS GAMBAR
-      // ========================================
-
-      const imageBase64 =
-        await compressImage(file);
-
-
-      // ========================================
-      // PAYLOAD
-      // HANYA 4 DATA
-      // ========================================
-
-      const payload = {
-
-        sku: sku,
-
-        qty: qty,
-
-        reason: reason,
-
-        imageBase64: imageBase64
-
-      };
-
-
-      console.log(
-        "Data yang dikirim:",
-        payload
-      );
-
-
-      // ========================================
-      // KIRIM KE APPS SCRIPT
-      // ========================================
-
-      const response =
-        await fetch(
-          API_URL,
-          {
-
-            method: "POST",
-
-            headers: {
-
-              "Content-Type":
-                "text/plain;charset=utf-8"
-
-            },
-
-            body:
-              JSON.stringify(payload)
-
-          }
-        );
-
-
-      const result =
-        await response.json();
-
-
-      console.log(
-        "Response:",
-        result
-      );
-
-
-      // ========================================
-      // RESPONSE ERROR
-      // ========================================
-
-      if (!result.success) {
-
-        throw new Error(
-          result.message ||
-          "Data gagal disimpan."
-        );
-
-      }
-
-
-      // ========================================
-      // BERHASIL
-      // ========================================
-
-      showStatus(
-
-        "✓ Data berhasil disimpan. No: " +
-        result.data.no,
-
-        "success"
-
-      );
-
-
-      // ========================================
-      // RESET FORM
-      // ========================================
-
-      form.reset();
-
-      preview.style.display =
-        "none";
-
-      previewImage.src =
-        "";
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      showStatus(
-
-        error.message ||
-        "Terjadi kesalahan.",
-
-        "error"
-
-      );
-
-    } finally {
-
-      setLoading(false);
-
-    }
+    return;
 
   }
-);
+
+
+  if (!qty || qty <= 0) {
+
+    showStatus(
+      "QTY harus lebih dari 0.",
+      "error"
+    );
+
+    qtyInput.focus();
+
+    return;
+
+  }
+
+
+  if (!reason) {
+
+    showStatus(
+      "Reason wajib diisi.",
+      "error"
+    );
+
+    reasonInput.focus();
+
+    return;
+
+  }
+
+
+  if (!file) {
+
+    showStatus(
+      "Gambar Damage wajib diupload.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+
+    setLoading(true);
+
+
+    // ========================================
+    // COMPRESS GAMBAR
+    // ========================================
+
+    const imageBase64 =
+    await compressImage(file);
+
+
+    // ========================================
+    // PAYLOAD
+    // ========================================
+
+    const payload = {
+
+      sku:
+      sku,
+
+      qty:
+      qty,
+
+      reason:
+      reason,
+
+      imageBase64:
+      imageBase64
+
+    };
+
+
+    console.log(
+      "PAYLOAD:",
+      payload
+    );
+
+
+    // ========================================
+    // KIRIM
+    // ========================================
+
+    const response =
+    await fetch(
+      API_URL,
+      {
+
+        method:
+        "POST",
+
+        headers: {
+
+          "Content-Type":
+          "text/plain;charset=utf-8"
+
+        },
+
+        body:
+        JSON.stringify(payload)
+
+      }
+    );
+
+
+    const result =
+    await response.json();
+
+
+    console.log(
+      "RESPONSE:",
+      result
+    );
+
+
+    // ========================================
+    // CEK RESPONSE
+    // ========================================
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "Data gagal disimpan."
+      );
+
+    }
+
+
+    // ========================================
+    // BERHASIL
+    // ========================================
+
+    showStatus(
+
+      "✓ Data berhasil disimpan. No: " +
+      result.data.no,
+
+      "success"
+
+    );
+
+
+    // ========================================
+    // RESET
+    // ========================================
+
+    form.reset();
+
+    preview.style.display =
+    "none";
+
+    previewImage.src =
+    "";
+
+
+  }
+  catch(error) {
+
+    console.error(error);
+
+
+    showStatus(
+
+      error.message ||
+      "Terjadi kesalahan.",
+
+      "error"
+
+    );
+
+  }
+  finally {
+
+    setLoading(false);
+
+  }
+
+});
 
 
 /*************************************************
- * COMPRESS IMAGE
+ * COMPRESS GAMBAR
  *************************************************/
 
 function compressImage(file) {
 
   return new Promise(
-    function (resolve, reject) {
+  function(resolve, reject) {
 
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function (event) {
-
-          const img =
-            new Image();
+    const reader =
+    new FileReader();
 
 
-          img.onload =
-            function () {
+    reader.onload =
+    function(event) {
 
-              let width =
-                img.width;
-
-              let height =
-                img.height;
+      const img =
+      new Image();
 
 
-              const maxSize =
-                1200;
+      img.onload =
+      function() {
+
+        let width =
+        img.width;
+
+        let height =
+        img.height;
 
 
-              if (
-                width > maxSize ||
-                height > maxSize
-              ) {
-
-                if (width > height) {
-
-                  height =
-                    Math.round(
-                      height *
-                      maxSize /
-                      width
-                    );
-
-                  width =
-                    maxSize;
-
-                } else {
-
-                  width =
-                    Math.round(
-                      width *
-                      maxSize /
-                      height
-                    );
-
-                  height =
-                    maxSize;
-
-                }
-
-              }
+        const maxSize =
+        1200;
 
 
-              const canvas =
-                document.createElement(
-                  "canvas"
-                );
+        if (
+          width > maxSize ||
+          height > maxSize
+        ) {
+
+          if (width > height) {
+
+            height =
+            Math.round(
+              height *
+              maxSize /
+              width
+            );
+
+            width =
+            maxSize;
+
+          }
+          else {
+
+            width =
+            Math.round(
+              width *
+              maxSize /
+              height
+            );
+
+            height =
+            maxSize;
+
+          }
+
+        }
 
 
-              canvas.width =
-                width;
-
-              canvas.height =
-                height;
-
-
-              const ctx =
-                canvas.getContext(
-                  "2d"
-                );
+        const canvas =
+        document.createElement(
+          "canvas"
+        );
 
 
-              ctx.drawImage(
-                img,
-                0,
-                0,
-                width,
-                height
-              );
+        canvas.width =
+        width;
+
+        canvas.height =
+        height;
 
 
-              const result =
-                canvas.toDataURL(
-                  "image/jpeg",
-                  0.75
-                );
+        const ctx =
+        canvas.getContext(
+          "2d"
+        );
 
 
-              resolve(result);
-
-            };
-
-
-          img.onerror =
-            reject;
-
-
-          img.src =
-            event.target.result;
-
-        };
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          width,
+          height
+        );
 
 
-      reader.onerror =
-        reject;
+        const result =
+        canvas.toDataURL(
+          "image/jpeg",
+          0.75
+        );
 
 
-      reader.readAsDataURL(file);
+        resolve(result);
 
-    }
-  );
+      };
+
+
+      img.onerror =
+      reject;
+
+
+      img.src =
+      event.target.result;
+
+    };
+
+
+    reader.onerror =
+    reject;
+
+
+    reader.readAsDataURL(file);
+
+  });
 
 }
 
@@ -867,19 +778,19 @@ function compressImage(file) {
 function setLoading(isLoading) {
 
   submitButton.disabled =
-    isLoading;
+  isLoading;
 
 
   loading.style.display =
-    isLoading
-      ? "block"
-      : "none";
+  isLoading
+    ? "block"
+    : "none";
 
 
   submitButton.textContent =
-    isLoading
-      ? "MENYIMPAN..."
-      : "SIMPAN DATA";
+  isLoading
+    ? "MENYIMPAN..."
+    : "SIMPAN DATA";
 
 }
 
@@ -889,15 +800,15 @@ function setLoading(isLoading) {
  *************************************************/
 
 function showStatus(
-  message,
-  type
+message,
+type
 ) {
 
   statusBox.textContent =
-    message;
+  message;
 
   statusBox.className =
-    "status " + type;
+  "status " + type;
 
 }
 
